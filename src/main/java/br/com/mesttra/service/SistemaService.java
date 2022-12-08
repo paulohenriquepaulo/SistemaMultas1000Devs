@@ -7,6 +7,7 @@ import br.com.mesttra.repository.MultaRepository;
 import org.hibernate.event.spi.SaveOrUpdateEvent;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Scanner;
 
 public class SistemaService {
@@ -51,21 +52,34 @@ public class SistemaService {
             System.out.println("============ Painel Multa ================");
             System.out.println("==========================================");
             System.out.println("1 - Cadastrar");
-            System.out.println("2 - voltar");
+            System.out.println("2 - Litar multas por veiculo");
+            System.out.println("3 - voltar");
             int opcao = Integer.parseInt(entrada.nextLine());
             switch (opcao) {
                 case 1:
                     Multa multa = dadosMulta();
-                    multaService.registrarMulta(multa);
+                    try {
+                        multaService.registrarMulta(multa);
+                    } catch (RuntimeException e) {
+                        System.out.println(e.getMessage());
+                    }
                     break;
                 case 2:
-                    transferirVeiculo();
-
+                    listarMultasporVeiculos();
+                    break;
+                case 3:
+                    painelPincipal();
                     break;
 
 
             }
         }
+    }
+
+    private static void listarMultasporVeiculos() {
+        System.out.print("Informe a placa do veiculo: ");
+        multaService.getMultasVeiculos(entrada.nextLine());
+
     }
 
     private static Multa dadosMulta() {
@@ -107,7 +121,12 @@ public class SistemaService {
     }
 
     private static void aplicarMultaCondutor(Multa multa) {
-        Condutor condutor = condutorService.buscarCondutor(multa.getVeiculo().getCondutor().getNumeroCnh());
+        Condutor condutor = null;
+        try {
+            condutor = condutorService.buscarCondutor(multa.getVeiculo().getCondutor().getNumeroCnh());
+        } catch (NullPointerException e) {
+            return;
+        }
         if (multa.getPontuacao() > condutor.getPontuacao()) {
             condutor.setPontuacao(0);
             System.out.println("Sua CNH está presa!");
@@ -134,7 +153,6 @@ public class SistemaService {
                     break;
                 case 2:
                     transferirVeiculo();
-
                     break;
                 case 3:
                     System.out.print("Informe a placa do veiculo: ");
