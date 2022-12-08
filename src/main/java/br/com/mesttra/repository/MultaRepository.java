@@ -1,6 +1,5 @@
 package br.com.mesttra.repository;
 
-import br.com.mesttra.model.Condutor;
 import br.com.mesttra.model.Multa;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;

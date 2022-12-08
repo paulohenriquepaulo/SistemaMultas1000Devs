@@ -1,6 +1,5 @@
 package br.com.mesttra.repository;
 
-import br.com.mesttra.model.Condutor;
 import br.com.mesttra.model.Veiculo;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -52,29 +51,4 @@ public class VeiculoRepository {
         return null;
     }
 
-
- /*   // CONSULTAR
-    public  CondutorModel consultaAluno(int matricula) {
-        return manager.find(Aluno.class, matricula);
-    }
-*//*
-    // LISTAR
-    public List<Aluno> listaAlunos() {
-        Query query = manager.createQuery("select a from Aluno as a");
-        return query.getResultList();
-    }*/
-
-  /*  // REMOVER
-    public boolean removeAluno(int matricula) {
-        Aluno alunoASerRemovido = manager.find(Aluno.class, matricula);
-
-        if (alunoASerRemovido == null)
-            return false;
-
-        manager.getTransaction().begin();
-        manager.remove(alunoASerRemovido);
-        manager.getTransaction().commit();
-
-        return true;
-    }*/
 }

@@ -48,7 +48,7 @@ public class SistemaService {
     private static void painelMulta() {
         while (true) {
             System.out.println("==========================================");
-            System.out.println("============ Painel Multa =============");
+            System.out.println("============ Painel Multa ================");
             System.out.println("==========================================");
             System.out.println("1 - Cadastrar");
             System.out.println("2 - voltar");
@@ -72,9 +72,9 @@ public class SistemaService {
         Multa multa = new Multa();
         System.out.println("==========================================");
         System.out.println("Codigo \t\t Pontuação \t\t valor ");
-        System.out.println("1 - Leve \t\t 3 \t\t 195.00");
-        System.out.println("2 - Media \t\t 5 \t\t 295.00");
-        System.out.println("3 - Grave \t\t 7 \t\t 495.00");
+        System.out.println("1 - Leve \t\t 3 \t\t\t 195.00");
+        System.out.println("2 - Media \t\t 5 \t\t\t 295.00");
+        System.out.println("3 - Grave \t\t 7 \t\t\t 495.00");
         System.out.println("==========================================");
         System.out.print("Escolha uma opção: ");
         int codigoMulta = Integer.parseInt(entrada.nextLine());
@@ -150,28 +150,35 @@ public class SistemaService {
     }
 
     private static void informacoesVeiculo(Veiculo v) {
-        System.out.println("==========================================");
-        System.out.println("================ VEICULO =================");
-        System.out.println("==========================================");
-        System.out.println("Modelo: " + v.getModelo());
-        System.out.println("Marca: " + v.getMarca());
-        System.out.println("Ano: " + v.getAno());
-        System.out.println("Placa: " + v.getPlaca());
-        System.out.println("Proprietario: " + condutorService.buscarCondutor(v.getCondutor().getNumeroCnh()).getNome());
+        if (v.getId() != null) {
+            System.out.println("==========================================");
+            System.out.println("================ VEICULO =================");
+            System.out.println("==========================================");
+            System.out.println("Modelo: " + v.getModelo());
+            System.out.println("Marca: " + v.getMarca());
+            System.out.println("Ano: " + v.getAno());
+            System.out.println("Placa: " + v.getPlaca());
+            System.out.println("Proprietario: " + condutorService.buscarCondutor(v.getCondutor().getNumeroCnh()).getNome());
+        }
     }
 
     private static void transferirVeiculo() {
         System.out.print("Informe a placa do veiculo que deseja transferir: ");
         String placa = entrada.nextLine();
+
         Veiculo v = veiculoService.buscarVeiculo(placa);
         System.out.print("Informe a CNH do condutor que deseja fazer a transferencia do veiculo: ");
         String cnh = entrada.nextLine();
-        Condutor c = condutorService.buscarCondutor(cnh);
-        v.setCondutor(c);
-        if (veiculoService.atualizarVeiculo(v)) {
-            System.out.println("==========================================");
-            System.out.println("=== Tranferencia efetuada com sucesso! ===");
-            System.out.println("==========================================");
+        try {
+            Condutor c = condutorService.buscarCondutor(cnh);
+            v.setCondutor(c);
+            if (veiculoService.atualizarVeiculo(v)) {
+                System.out.println("==========================================");
+                System.out.println("=== Tranferencia efetuada com sucesso! ===");
+                System.out.println("==========================================");
+            }
+        } catch (NullPointerException e) {
+            return;
         }
 
     }
@@ -209,8 +216,13 @@ public class SistemaService {
                     condutorService.criarCondutor(condutor);
                     break;
                 case 2:
-                    Condutor c = getCondutor();
-                    imprimirCondutor(c);
+                    try {
+                        Condutor c = getCondutor();
+                        imprimirCondutor(c);
+                    } catch (NullPointerException e) {
+                        return;
+                    }
+
                     break;
                 case 3:
                     painelPincipal();
@@ -221,12 +233,14 @@ public class SistemaService {
     }
 
     private static void imprimirCondutor(Condutor c) {
-        System.out.println("----------- Dados do Condutor ------------");
-        System.out.println("Nome: " + c.getNome());
-        System.out.println("Número da CNH: " + c.getNumeroCnh());
-        System.out.println("Data Emissor: " + c.getDataEmissor());
-        System.out.println("Data Emissão: " + c.getDataEmissao());
-        System.out.println("Pontuação: " + c.getPontuacao());
+        if (c.getId() != null) {
+            System.out.println("----------- Dados do Condutor ------------");
+            System.out.println("Nome: " + c.getNome());
+            System.out.println("Número da CNH: " + c.getNumeroCnh());
+            System.out.println("Data Emissor: " + c.getDataEmissor());
+            System.out.println("Data Emissão: " + c.getDataEmissao());
+            System.out.println("Pontuação: " + c.getPontuacao());
+        }
     }
 
     private static Condutor dadosCondutor() {

@@ -1,6 +1,5 @@
 package br.com.mesttra.service;
 
-import br.com.mesttra.model.Condutor;
 import br.com.mesttra.model.Multa;
 import br.com.mesttra.repository.MultaRepository;
 

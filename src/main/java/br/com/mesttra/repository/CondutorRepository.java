@@ -1,10 +1,10 @@
 package br.com.mesttra.repository;
 
 import br.com.mesttra.model.Condutor;
-import jakarta.persistence.*;
-import net.bytebuddy.implementation.bytecode.Throw;
-
-import java.math.BigDecimal;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
+import jakarta.persistence.Query;
 
 
 public class CondutorRepository{
@@ -49,24 +49,5 @@ public class CondutorRepository{
         manager.getTransaction().commit();
         manager.close();
     }
-/*
-    // LISTAR
-    public List<Aluno> listaAlunos() {
-        Query query = manager.createQuery("select a from Aluno as a");
-        return query.getResultList();
-    }*/
 
-  /*  // REMOVER
-    public boolean removeAluno(int matricula) {
-        Aluno alunoASerRemovido = manager.find(Aluno.class, matricula);
-
-        if (alunoASerRemovido == null)
-            return false;
-
-        manager.getTransaction().begin();
-        manager.remove(alunoASerRemovido);
-        manager.getTransaction().commit();
-
-        return true;
-    }*/
 }
